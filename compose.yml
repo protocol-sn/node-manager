@@ -1,0 +1,18 @@
+version: '1'
+
+services:
+  NodeManager:
+    image: protocol-sn-node-manager:latest
+    ports:
+      - 8091:8090
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: node_manager
+    ports:
+      - 5432:5432
