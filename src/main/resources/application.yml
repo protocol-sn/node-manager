@@ -1,31 +1,3 @@
-spring:
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://host.docker.internal:9000/realms/ProtocolSN
-        registration:
-          keycloak:
-            client-id: login-app
-            authorization-grant-type: authorization_code
-            client-secret: NyhqNhdNysTtkeRUhHSW7FkDmcfuuYYm
-            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
-            scope: openid
-            client-name: customer-client
-            provider: keycloak
-      resource-server:
-        jwt:
-          issuer: http://localhost:9000/realms/ProtocolSN
-          jwk-set-uri: http://localhost:9000/realms/ProtocolSN/protocol/openid-connect/certs
-  datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/node_manager
-    username: postgres
-    password: postgres
-
-flyway:
-  user: postgres
-  password: postgres
-  schemas: node_manager
-  url: jdbc:postgresql://db:5432/node_manager
-  location: 'filesystem:db/migration'
+micronaut:
+  application:
+    name: node-manager
