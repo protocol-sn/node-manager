@@ -1,21 +1,11 @@
-## Micronaut 4.4.2 Documentation
+# Node Manager
 
-- [User Guide](https://docs.micronaut.io/4.4.2/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.4.2/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.4.2/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+## Starting up keycloak
+Navigate to the keycloak directory and enter `docker-compose up`. This will start up keycloak with a default realm "Social-Network-Ecosystem".
+This realm will include one user, "demo-user". Their password is "password".
 
-- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
-- [GraalVM Gradle Plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html)
-- [Shadow Gradle Plugin](https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow)
-## Feature serialization-jackson documentation
+## Starting up node manager
+`./gradlew run`
 
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-
+## Logging in
+With both keycloak and node manager running, go to "http://localhost:8080/oauth/login/keycloak" in your browser. This will redirect you to the keycloak login page. Use the credentials outlined above. You will be redirected back to this service.
