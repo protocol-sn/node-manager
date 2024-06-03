@@ -9,3 +9,6 @@ This realm will include one user, "demo-user". Their password is "password".
 
 ## Logging in
 With both keycloak and node manager running, go to "http://localhost:8080/oauth/login/keycloak" in your browser. This will redirect you to the keycloak login page. Use the credentials outlined above. You will be redirected back to this service.
+
+## local interaction
+Swagger-ui available at http://localhost:8080/swagger-ui/. Swagger-ui does not appear to support client credentials flow reliably.

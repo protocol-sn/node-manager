@@ -1,0 +1,23 @@
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/node-manager
+    username: ${JDBC_USER:postgres}
+    password: ${JDBC_PASSWORD:postgres}
+    dialect: POSTGRES
+
+micronaut:
+  security:
+    oauth2:
+      clients:
+        keycloak:
+          client-secret: HELxIV5Zh1wQyCbBQmWesTOG7CsZM5P8
+          client-id: node-manager
+          openid:
+            issuer: http://localhost:9080/realms/Social-Network-Ecosystem
+
+coop:
+  stlma:
+    tech:
+    protocolsn:
+      tokenUrl: 'http://localhost:9080/realms/spike-realm/protocol/openid-connect/token'
