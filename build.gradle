@@ -1,10 +1,10 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.3.8"
-    id("io.micronaut.aot") version "4.3.8"
+    id("io.micronaut.application") version "4.4.0"
+    id("io.micronaut.aot") version "4.4.0"
 }
 
-version = "0.0.1"
+version = "0.0.2"
 group = "coop.stlma.tech.protocolsn"
 
 repositories {
@@ -14,25 +14,51 @@ repositories {
 dependencies {
     //web
     annotationProcessor("io.micronaut:micronaut-http-validation")
-    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("io.micronaut:micronaut-http-client")
+    compileOnly("io.micronaut:micronaut-http-client")
+    testImplementation("io.micronaut:micronaut-http-client")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut.validation:micronaut-validation")
 
-    //security
-    implementation("io.micronaut.security:micronaut-security-jwt")
-    implementation("io.micronaut.security:micronaut-security-oauth2")
-    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    //db
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
+    //test
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.mockito:mockito-core")
+    testRuntimeOnly("com.h2database:h2")
+
+    //serde
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+
+    //security
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut.security:micronaut-security-oauth2")
+
+    //reactor
+    implementation("io.micronaut.reactor:micronaut-reactor")
+
+    //lombok
+    annotationProcessor("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok")
+
     //properties
     runtimeOnly("org.yaml:snakeyaml")
 
-    //testing
-    testImplementation("io.micronaut:micronaut-http-client")
+    //swagger
+    annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+    implementation("io.micronaut.openapi:micronaut-openapi-annotations")
 }
-
 
 application {
     mainClass = "coop.stlma.tech.protocolsn.Application"
@@ -64,10 +90,4 @@ micronaut {
         replaceLogbackXml = true
     }
 }
-
-
-tasks.named("dockerfileNative") {
-    jdkVersion = "21"
-}
-
 

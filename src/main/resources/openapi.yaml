@@ -1,0 +1,7 @@
+components:
+  securitySchemes:
+    pluginClient:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: http://localhost:9080/realms/spike-realm/protocol/openid-connect/token
