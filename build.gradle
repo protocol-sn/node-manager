@@ -14,7 +14,7 @@ repositories {
 dependencies {
     //web
     annotationProcessor("io.micronaut:micronaut-http-validation")
-    compileOnly("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-http-client")
     testImplementation("io.micronaut:micronaut-http-client")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut.validation:micronaut-validation")
@@ -44,6 +44,7 @@ dependencies {
     //security
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.security:micronaut-security-jwt")
 
     //reactor
     implementation("io.micronaut.reactor:micronaut-reactor")
