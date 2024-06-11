@@ -6,6 +6,11 @@ import io.micronaut.data.repository.reactive.ReactorCrudRepository;
 
 import java.util.UUID;
 
+/**
+ * CrUD repository for registered plugins
+ *
+ * @author John Meyerin
+ */
 @Repository
 public interface PluginRegistrationRepository extends ReactorCrudRepository<PluginRegistrationEntity, UUID> {
 }

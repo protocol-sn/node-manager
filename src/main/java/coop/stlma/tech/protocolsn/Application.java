@@ -9,9 +9,14 @@ import io.swagger.v3.oas.annotations.security.OAuthFlows;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 
+/**
+ * Driver class for the node-manager
+ *
+ * @author John Meyerin
+ */
 @OpenAPIDefinition(info = @Info(
         title = "Protocol SN node manager",
-        version = "0.0.2"
+        version = "0.1.0"
 ))
 @SecuritySchemes(
         @SecurityScheme(
