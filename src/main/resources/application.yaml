@@ -11,11 +11,10 @@ micronaut:
     oauth2:
       clients:
         keycloak:
-          client-secret: HELxIV5Zh1wQyCbBQmWesTOG7CsZM5P8
+          client-secret: node-manager-secret
           client-id: node-manager
           openid:
-            issuer: http://localhost:9080/realms/social-network-ecosystem
-    authentication: idtoken
+            issuer: http://keycloak:8080/realms/social-network-ecosystem
     endpoints:
       login:
         enabled: true
@@ -26,7 +25,7 @@ micronaut:
         signatures:
           jwks:
             keycloak:
-              url: http://host.docker.internal:9080/realms/social-network-ecosystem/protocol/openid-connect/certs
+              url: http://localhost:9080/realms/social-network-ecosystem/protocol/openid-connect/certs
     intercept-url-map:
       - pattern: /swagger/**
         access: isAnonymous()
@@ -42,16 +41,12 @@ jpa:
         hbm2ddl:
           auto: none
 
-datasources:
-  default:
-    driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://db:5432/node-manager
-    username: ${JDBC_USER:postgres}
-    password: ${JDBC_PASSWORD:postgres}
-    dialect: POSTGRES
-
 flyway:
   datasources:
     default:
       enabled: true
       locations: db/migrations
+
+logger:
+  levels:
+    io.micronaut.security: DEBUG
