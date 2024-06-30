@@ -13,7 +13,7 @@ import org.reactivestreams.Publisher;
 
 public interface RegistrationOperations {
 
-    String REGISTER_PLUGIN_ENDPOINT = "/plugin-registration";
+    String REGISTER_PLUGIN_ENDPOINT = "v0.1.0/plugin-registration";
     String REGISTER_PLUGIN_ROLES = "plugin";
     Publisher<HttpResponse<PluginRegistration>> registerPlugin(@Body PluginRegistration pluginRegistration);
 }
