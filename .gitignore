@@ -1,11 +1,11 @@
 Thumbs.db
 .DS_Store
-.gradle
+**/.gradle
 build/
 target/
 out/
 .micronaut/
-.idea
+**/.idea
 *.iml
 *.ipr
 *.iws
