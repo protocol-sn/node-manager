@@ -1,5 +1,6 @@
 package coop.stlma.tech.protocolsn.registration.controller;
 
+import coop.stlma.tech.protocolsn.registration.api.RegistrationOperations;
 import coop.stlma.tech.protocolsn.registration.model.PluginRegistration;
 import coop.stlma.tech.protocolsn.registration.service.PluginRegistrationService;
 import io.micronaut.context.annotation.Primary;
@@ -31,13 +32,15 @@ class PluginRegistrationControllerTest {
 
     @Test
     void testRegisterPlugin_happyPath() {
-        PluginRegistration expected = new PluginRegistration(UUID.nameUUIDFromBytes("blog-plugin".getBytes()), "blog-plugin", "localhost:8082");
+        PluginRegistration expected = new PluginRegistration(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
+                "blog-plugin", "localhost:8082", null, null,
+                null, null, null);
         Mockito.when(pluginRegistrationService.registerPlugin(Mockito.any(PluginRegistration.class)))
                 .thenReturn(Mono.just(expected));
 
         HttpResponse<PluginRegistration> response = httpClient.toBlocking()
                 .exchange(HttpRequest
-                        .POST("/plugin-registration",
+                        .POST(RegistrationOperations.REGISTER_PLUGIN_ENDPOINT,
                                 Map.of("pluginName", "blog-plugin",
                                        "pluginLocation", "localhost:8082")));
 

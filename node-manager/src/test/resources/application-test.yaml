@@ -14,3 +14,14 @@ datasources:
 micronaut:
   security:
     enabled: false
+
+logger:
+  levels:
+    coop.stlma.tech.protocolsn: TRACE
+
+coop:
+  stlma:
+    tech:
+      protocolsn:
+        health-check:
+          enabled: false
