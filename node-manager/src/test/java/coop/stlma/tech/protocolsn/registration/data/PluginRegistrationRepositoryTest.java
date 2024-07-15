@@ -23,10 +23,10 @@ class PluginRegistrationRepositoryTest extends RepositoryTest {
 
     @Test
     void testFindAll_happyPath() {
-        pluginRepository.save(new PluginRegistrationEntity(null,
-                "blog-plugin", "localhost:8082")).block();
-        pluginRepository.save(new PluginRegistrationEntity(null,
-                "blog-plugin-2", "localhost:8083")).block();
+        pluginRepository.save(new PluginRegistrationEntity(null, "blog-plugin", "localhost:8082",
+                null, null, null, null, null)).block();
+        pluginRepository.save(new PluginRegistrationEntity(null, "blog-plugin-2", "localhost:8083",
+                null, null, null, null, null)).block();
         List<PluginRegistrationEntity> products = pluginRepository.findAll().collectList().block();
         assertEquals(2, products.size());
     }

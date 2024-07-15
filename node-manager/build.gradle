@@ -4,11 +4,12 @@ plugins {
     id("io.micronaut.aot") version "4.4.0"
 }
 
-version = "0.1.1"
+version = "0.1.2"
 group = "coop.stlma.tech.protocolsn"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -18,7 +19,6 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation project(":node-manager-api")
 
     //db
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
@@ -30,6 +30,10 @@ dependencies {
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
+
+    //protocol-sn
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.1.0")
+    implementation project(":node-manager-api")
 
     //test
     testImplementation("org.testcontainers:junit-jupiter")

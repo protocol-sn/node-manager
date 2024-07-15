@@ -1,5 +1,6 @@
 package coop.stlma.tech.protocolsn.registration.model;
 
+import coop.stlma.tech.protocolsn.health.model.HealthStatus;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -32,4 +34,29 @@ public class PluginRegistration {
      * Host URL of the plugin
      */
     private String pluginLocation;
+
+    /**
+     * Endpoint for health checks
+     */
+    private String healthEndpoint;
+
+    /**
+     * Result of the most recent health check
+     */
+    private HealthStatus currentHealthStatus;
+
+    /**
+     * Description provided by the most recent health check
+     */
+    private String currentHealthDescription;
+
+    /**
+     * Time of the most recent health check
+     */
+    private Instant lastHealthCheck;
+
+    /**
+     * Last time a health check returned HEALTHY
+     */
+    private HealthStatus lastHealthCheckStatus;
 }

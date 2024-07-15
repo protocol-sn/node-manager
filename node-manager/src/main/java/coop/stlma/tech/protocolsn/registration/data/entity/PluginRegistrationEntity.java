@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -44,4 +45,34 @@ public class PluginRegistrationEntity {
      */
     @Column(name = "plugin_location")
     private String pluginLocation;
+
+    /**
+     * Endpoint for health checks
+     */
+    @Column(name = "health_endpoint")
+    private String healthEndpoint;
+
+    /**
+     * Result of the most recent health check
+     */
+    @Column(name = "current_health_status")
+    private String currentHealthStatus;
+
+    /**
+     * Description provided by the most recent health check
+     */
+    @Column(name = "current_health_description")
+    private String currentHealthDescription;
+
+    /**
+     * Time of the most recent health check
+     */
+    @Column(name = "last_health_check")
+    private Instant lastHealthCheck;
+
+    /**
+     * Last time a health check returned HEALTHY
+     */
+    @Column(name = "last_healthy_response")
+    private String lastHealthCheckStatus;
 }

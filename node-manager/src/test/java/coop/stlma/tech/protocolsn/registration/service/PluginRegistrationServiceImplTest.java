@@ -27,7 +27,10 @@ class PluginRegistrationServiceImplTest {
     void testRegisterPlugin_happyPath() {
         Mockito.when(pluginRegistrationRepository.save(Mockito.any(PluginRegistrationEntity.class)))
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
-                        "blog-plugin", "localhost:8082")));
-        pluginRegistrationService.registerPlugin(new PluginRegistration(null, "blog-plugin", "localhost:8082")).block();
+                        "blog-plugin", "localhost:8082", null, null,
+                        null, null, null)));
+        pluginRegistrationService.registerPlugin(new PluginRegistration(null, "blog-plugin",
+                "localhost:8082", null, null, null,
+                null, null)).block();
     }
 }

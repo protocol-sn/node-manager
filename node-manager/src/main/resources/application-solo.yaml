@@ -7,9 +7,40 @@ datasources:
     dialect: POSTGRES
 
 micronaut:
+  application:
+    intercept-url-map:
+      - pattern: /swagger/**
+        access: isAnonymous()
+      - pattern: /swagger-ui/**
+        access: isAnonymous()
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        mapping: /swagger-ui/**
+        paths: classpath:META-INF/swagger/views/swagger-ui
   security:
+    token:
+      jwt:
+        signatures:
+          jwks:
+            keycloak:
+              url: http://localhost:9080/realms/social-network-ecosystem/protocol/openid-connect/certs
     oauth2:
       clients:
+        keycloak-client:
+          client-secret: node-manager-secret
+          client-id: node-manager
+          grant-type: client_credentials
+          token:
+            url: http://localhost:9080/realms/social-network-ecosystem/protocol/openid-connect/token
+            auth-method: client_secret_post
+          client-credentials:
+            uri-regex: (http://localhost:8081/){1}(.)*
+          openid:
+            issuer: http://localhost:9080/realms/social-network-ecosystem
         keycloak:
           client-secret: node-manager-secret
           client-id: node-manager
