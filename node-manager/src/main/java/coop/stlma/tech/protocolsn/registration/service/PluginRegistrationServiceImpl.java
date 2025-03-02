@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,8 +45,9 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
     @Override
     public Mono<PluginRegistration> registerPlugin(PluginRegistration pluginRegistration) {
         log.debug("Registering plugin {} at location {}", pluginRegistration.getPluginName(), pluginRegistration.getPluginLocation());
-//        applicationContext.createBean(HttpClient.class, pluginRegistration.getPluginLocation());
-        return pluginRegistrationRepository.save(mapToEntity(pluginRegistration))
+        return pluginRegistrationRepository.findByPluginName(pluginRegistration.getPluginName())
+                .map(pluginRegistrationEntity -> Objects.requireNonNullElseGet(pluginRegistrationEntity, () -> mapToEntity(pluginRegistration)))
+                .flatMap(pluginRegistrationRepository::save)
                 .map(this::mapToDomain);
     }
 
