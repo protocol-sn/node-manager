@@ -4,7 +4,7 @@ plugins {
     id("io.micronaut.aot") version "4.4.0"
 }
 
-version = "0.1.2"
+version = "0.3.0"
 group = "coop.stlma.tech.protocolsn"
 
 repositories {
@@ -23,7 +23,9 @@ dependencies {
     //db
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.sql:micronaut-hibernate-jpa")
+    runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.data:micronaut-data-tx-hibernate")
     runtimeOnly("org.postgresql:postgresql")
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")

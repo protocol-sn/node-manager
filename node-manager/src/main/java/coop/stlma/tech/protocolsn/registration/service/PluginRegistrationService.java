@@ -30,7 +30,7 @@ public interface PluginRegistrationService {
      * @param newStatus     new health status
      * @return the updated plugin
      */
-    Publisher<PluginRegistration> updateHealthStatus(UUID pluginId, HealthResponse newStatus);
+    Mono<PluginRegistration> updateHealthStatus(UUID pluginId, HealthResponse newStatus);
 
     /**
      * Get a single registered plugin
