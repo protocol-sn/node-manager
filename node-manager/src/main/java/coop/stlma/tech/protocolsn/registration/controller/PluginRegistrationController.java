@@ -38,7 +38,8 @@ public class PluginRegistrationController implements RegistrationOperations {
     public Publisher<HttpResponse<PluginRegistration>> registerPlugin(@Body PluginRegistration pluginRegistration) {
         log.debug("registering plugin {}", pluginRegistration.getPluginName());
         return Mono.from(pluginRegistrationService.registerPlugin(pluginRegistration))
-                .map(HttpResponse::ok);
+                .map(HttpResponse::created)
+                .map(pluginRegistrationMutableHttpResponse -> pluginRegistrationMutableHttpResponse);
 
     }
 }

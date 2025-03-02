@@ -42,7 +42,8 @@ class PluginHealthServiceImplTest {
 
     EmbeddedServer otherServer = ApplicationContext.run(EmbeddedServer.class, Map.of(
             "healthResponse", "unhealthy",
-            "activeTest", "HealthControllerTest"));
+            "activeTest", "HealthControllerTest",
+            "micronaut.server.port", "8081"));
 
     @Test
     void testGetHealthResponse_happyPath() {

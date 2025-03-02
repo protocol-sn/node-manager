@@ -15,7 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,8 +45,14 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
     public Mono<PluginRegistration> registerPlugin(PluginRegistration pluginRegistration) {
         log.debug("Registering plugin {} at location {}", pluginRegistration.getPluginName(), pluginRegistration.getPluginLocation());
         return pluginRegistrationRepository.findByPluginName(pluginRegistration.getPluginName())
-                .map(pluginRegistrationEntity -> Objects.requireNonNullElseGet(pluginRegistrationEntity, () -> mapToEntity(pluginRegistration)))
-                .flatMap(pluginRegistrationRepository::save)
+                .singleOptional()
+                .map(pluginRegistrationEntity -> {
+                    PluginRegistrationEntity saveMe = mapToEntity(pluginRegistration);
+                    pluginRegistrationEntity.ifPresent(registrationEntity ->
+                            saveMe.setId(registrationEntity.getId()));
+                    return saveMe;
+                })
+                .flatMap(pluginRegistrationRepository::update)
                 .map(this::mapToDomain);
     }
 
@@ -68,7 +73,7 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
      * @return              updated plugin
      */
     @Override
-    public Publisher<PluginRegistration> updateHealthStatus(UUID pluginId, HealthResponse newStatus) {
+    public Mono<PluginRegistration> updateHealthStatus(UUID pluginId, HealthResponse newStatus) {
         return pluginRegistrationRepository.findById(pluginId)
                 .flatMap(pluginRegistrationEntity -> {
                     String lastHealthCheckStatus = pluginRegistrationEntity.getLastHealthCheckStatus();
@@ -96,6 +101,7 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
     }
 
     private PluginRegistrationEntity mapToEntity(PluginRegistration pluginRegistration) {
+        log.debug("Mapping plugin {} at location {}", pluginRegistration.getPluginName(), pluginRegistration.getPluginLocation());
         return new PluginRegistrationEntity(null, pluginRegistration.getPluginName(),
                 pluginRegistration.getPluginLocation(), pluginRegistration.getHealthEndpoint(),
                 Optional.ofNullable(pluginRegistration.getCurrentHealthStatus()).map(HealthStatus::name).orElse(null),
