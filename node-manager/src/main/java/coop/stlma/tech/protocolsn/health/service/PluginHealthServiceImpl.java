@@ -32,6 +32,11 @@ public class PluginHealthServiceImpl implements PluginHealthService {
         this.pluginRegistrationService = pluginRegistrationService;
     }
 
+    /**
+     * Get the health response for a single plugin
+     * @param pluginId  ID of the plugin
+     * @return          health of the given plugin
+     */
     @Override
     public Mono<Tuple2<UUID, HealthResponse>> getHealthResponse(UUID pluginId) {
         return pluginRegistrationService.getPluginById(pluginId)
@@ -40,6 +45,10 @@ public class PluginHealthServiceImpl implements PluginHealthService {
                 .map(healthResponse -> Tuples.of(pluginId, healthResponse));
     }
 
+    /**
+     * Get the health responses of all registered plugins
+     * @return  health responses of all registered plugins
+     */
     @Override
     public Flux<Tuple2<UUID, HealthResponse>> healthCheckAllPlugins() {
         return pluginRegistrationService

@@ -9,11 +9,6 @@ datasources:
 micronaut:
   application:
     name: node-manager
-    intercept-url-map:
-      - pattern: /swagger/**
-        access: isAnonymous()
-      - pattern: /swagger-ui/**
-        access: isAnonymous()
   server:
     port: 8080
   router:
@@ -50,6 +45,19 @@ micronaut:
           openid:
             issuer: http://localhost:9080/realms/social-network-ecosystem
     authentication: cookie
+    intercept-url-map:
+      - pattern: /favicon.ico
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: /swagger/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: /swagger-ui/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
 
 jpa:
   default:

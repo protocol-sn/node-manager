@@ -2,7 +2,6 @@ package coop.stlma.tech.protocolsn.registration.service;
 
 import coop.stlma.tech.protocolsn.health.model.HealthResponse;
 import coop.stlma.tech.protocolsn.registration.model.PluginRegistration;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

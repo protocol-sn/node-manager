@@ -31,6 +31,11 @@ public class PluginRegistrationController implements RegistrationOperations {
         this.pluginRegistrationService = pluginRegistrationService;
     }
 
+    /**
+     * Register a plugin with the node management
+     * @param pluginRegistration    info on the plugin
+     * @return                      the registered plugin
+     */
     @Post(REGISTER_PLUGIN_ENDPOINT)
     @RolesAllowed(REGISTER_PLUGIN_ROLES)
     @SecurityRequirement(name = "pluginClient")
