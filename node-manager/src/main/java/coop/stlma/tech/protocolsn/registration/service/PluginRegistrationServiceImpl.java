@@ -7,10 +7,8 @@ import coop.stlma.tech.protocolsn.registration.data.entity.PluginRegistrationEnt
 import coop.stlma.tech.protocolsn.registration.model.PluginRegistration;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.http.client.HttpClient;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -28,12 +26,9 @@ import java.util.UUID;
 public class PluginRegistrationServiceImpl implements PluginRegistrationService {
 
     private final PluginRegistrationRepository pluginRegistrationRepository;
-    private final ApplicationContext applicationContext;
 
-    public PluginRegistrationServiceImpl(PluginRegistrationRepository pluginRegistrationRepository,
-                                         ApplicationContext applicationContext) {
+    public PluginRegistrationServiceImpl(PluginRegistrationRepository pluginRegistrationRepository) {
         this.pluginRegistrationRepository = pluginRegistrationRepository;
-        this.applicationContext = applicationContext;
     }
 
     /**

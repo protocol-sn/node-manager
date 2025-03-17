@@ -12,3 +12,6 @@ With both keycloak and node manager running, go to "http://localhost:8080/oauth/
 
 ## local interaction
 Swagger-ui available at http://localhost:8080/swagger-ui/. Swagger-ui does not appear to support client credentials flow reliably.
+
+## TODO
+- [ ] upgrade to latest Micronaut version

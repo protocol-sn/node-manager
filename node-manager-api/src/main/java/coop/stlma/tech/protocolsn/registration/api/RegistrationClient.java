@@ -11,12 +11,16 @@ import org.reactivestreams.Publisher;
 /**
  * Client for registration of plugins
  *
- * @Author John Meyerin
+ * @author John Meyerin
  */
-
 @Client("node-manager::registration")
 public interface RegistrationClient extends RegistrationOperations {
 
+    /**
+     * Register the plugin with the node manager
+     * @param pluginRegistration    info on the plugin
+     * @return                      the registered plugin
+     */
     @Post(REGISTER_PLUGIN_ENDPOINT)
     @RolesAllowed(REGISTER_PLUGIN_ROLES)
     Publisher<HttpResponse<PluginRegistration>> registerPlugin(@Body PluginRegistration pluginRegistration);

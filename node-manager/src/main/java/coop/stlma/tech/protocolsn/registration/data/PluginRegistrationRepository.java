@@ -15,5 +15,10 @@ import java.util.UUID;
 @Repository
 public interface PluginRegistrationRepository extends ReactorCrudRepository<PluginRegistrationEntity, UUID> {
 
+    /**
+     * Find a registered plugin by its name
+     * @param pluginName    name of the plugin
+     * @return              plugin
+     */
     Mono<PluginRegistrationEntity> findByPluginName(String pluginName);
 }

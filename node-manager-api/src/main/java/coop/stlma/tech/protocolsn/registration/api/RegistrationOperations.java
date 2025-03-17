@@ -10,10 +10,15 @@ import org.reactivestreams.Publisher;
  *
  * @author John Meyerin
  */
-
 public interface RegistrationOperations {
 
     String REGISTER_PLUGIN_ENDPOINT = "v0.1.0/plugin-registration";
     String REGISTER_PLUGIN_ROLES = "plugin";
+
+    /**
+     * Register a plugin with the node management
+     * @param pluginRegistration    info on the plugin
+     * @return                      the registered plugin
+     */
     Publisher<HttpResponse<PluginRegistration>> registerPlugin(@Body PluginRegistration pluginRegistration);
 }

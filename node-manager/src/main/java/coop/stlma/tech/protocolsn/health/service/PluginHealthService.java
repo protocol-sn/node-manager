@@ -14,7 +14,16 @@ import java.util.UUID;
  */
 public interface PluginHealthService {
 
+    /**
+     * Get the health response for a single plugin
+     * @param pluginId  ID of the plugin
+     * @return          health of the given plugin
+     */
     Mono<Tuple2<UUID, HealthResponse>> getHealthResponse(UUID pluginId);
 
+    /**
+     * Get the health responses of all registered plugins
+     * @return  health responses of all registered plugins
+     */
     Flux<Tuple2<UUID, HealthResponse>> healthCheckAllPlugins();
 }
