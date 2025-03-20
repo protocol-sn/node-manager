@@ -27,6 +27,9 @@ public class HealthCron {
         this.pluginHealthService = pluginHealthService;
     }
 
+    /**
+     * Periodically check the health of registered plugins
+     */
     @Scheduled(cron = "${coop.stlma.tech.protocolsn.health.cron:*/10 * * * *}")
     void execute() {
         log.debug("Running health check");

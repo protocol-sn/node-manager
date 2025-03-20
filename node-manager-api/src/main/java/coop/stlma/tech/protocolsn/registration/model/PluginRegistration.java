@@ -13,6 +13,8 @@ import java.util.UUID;
 
 /**
  * Domain object representing a registered plugin
+ *
+ * @author John Meyerin
  */
 @Getter
 @Setter

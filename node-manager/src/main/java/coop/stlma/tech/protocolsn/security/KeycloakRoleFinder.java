@@ -20,6 +20,11 @@ import java.util.Map;
 @Slf4j
 public class KeycloakRoleFinder implements RolesFinder {
 
+    /**
+     * Find the roles for the user as saved in a keycloak token
+     * @param attributes    keycloak token attributes
+     * @return              list of roles
+     */
     @Override
     public List<String> resolveRoles(Map<String, Object> attributes) {
         log.debug("Resolving roles from Keycloak attributes: {}", attributes);
