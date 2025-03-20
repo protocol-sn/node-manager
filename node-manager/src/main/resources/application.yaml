@@ -44,7 +44,7 @@ micronaut:
             uri-regex: (http://localhost:8081/){1}(.)*
           openid:
             issuer: http://localhost:9080/realms/social-network-ecosystem
-        keycloak:
+        local-keycloak:
           client-secret: node-manager-secret
           client-id: node-manager
           openid:

@@ -1,10 +1,10 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.4.0"
-    id("io.micronaut.aot") version "4.4.0"
+    id("io.micronaut.application") version "4.4.4"
+    id("io.micronaut.aot") version "4.4.4"
 }
 
-version = "0.3.0"
+version = getProperty("projectVersion")
 group = "coop.stlma.tech.protocolsn"
 
 repositories {
@@ -34,7 +34,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     //protocol-sn
-    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.1.0")
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.3.1")
     implementation project(":node-manager-api")
 
     //test
