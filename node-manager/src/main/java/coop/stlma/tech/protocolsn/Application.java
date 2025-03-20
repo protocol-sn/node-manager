@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecuritySchemes;
  */
 @OpenAPIDefinition(info = @Info(
         title = "Protocol SN node manager",
-        version = "0.1.0"
+        version = "0.4.0"
 ))
 @SecuritySchemes(
         @SecurityScheme(
