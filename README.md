@@ -1,17 +1,38 @@
-# Node Manager
+## Micronaut 4.9.3 Documentation
 
-## Starting up keycloak
-Navigate to the keycloak directory and enter `docker-compose up`. This will start up keycloak with a default realm "Social-Network-Ecosystem".
-This realm will include one user, "demo-user". Their password is "password".
+- [User Guide](https://docs.micronaut.io/4.9.3/guide/index.html)
+- [API Reference](https://docs.micronaut.io/4.9.3/api/index.html)
+- [Configuration Reference](https://docs.micronaut.io/4.9.3/guide/configurationreference.html)
+- [Micronaut Guides](https://guides.micronaut.io/index.html)
+---
 
-## Starting up node manager
-`./gradlew run`
+- [Shadow Gradle Plugin](https://gradleup.com/shadow/)
+- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
+- [GraalVM Gradle Plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html)
+## Feature lombok documentation
 
-## Logging in
-With both keycloak and node manager running, go to "http://localhost:8080/oauth/login/keycloak" in your browser. This will redirect you to the keycloak login page. Use the credentials outlined above. You will be redirected back to this service.
+- [Micronaut Project Lombok documentation](https://docs.micronaut.io/latest/guide/index.html#lombok)
 
-## local interaction
-Swagger-ui available at http://localhost:8080/swagger-ui/. Swagger-ui does not appear to support client credentials flow reliably.
+- [https://projectlombok.org/features/all](https://projectlombok.org/features/all)
 
-## TODO
-- [ ] upgrade to latest Micronaut version
+
+## Feature hibernate-jpa documentation
+
+- [Micronaut Hibernate JPA documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#hibernate)
+
+
+## Feature jdbc-hikari documentation
+
+- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
+
+
+## Feature micronaut-aot documentation
+
+- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
+
+
+## Feature serialization-jackson documentation
+
+- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
+
+

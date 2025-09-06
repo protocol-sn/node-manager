@@ -1,7 +1,7 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.5.0"
-    id("io.micronaut.aot") version "4.5.0"
+    id("com.gradleup.shadow") version "8.3.7"
+    id("io.micronaut.application") version "4.5.4"
+    id("io.micronaut.aot") version "4.5.4"
 }
 
 version = getProperty("projectVersion")
@@ -13,6 +13,10 @@ repositories {
 }
 
 dependencies {
+    //grpc
+    implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+    implementation("io.grpc:grpc-stub:${grpcVersion}")
+
     //web
     annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut:micronaut-http-client")
@@ -34,7 +38,8 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     //protocol-sn
-    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.4.0")
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.0")
+    implementation("coop.stlma.tech.protocolsn:common-lib:0.5.0")
     implementation project(":node-manager-api")
 
     //test
@@ -69,7 +74,7 @@ dependencies {
 }
 
 application {
-    mainClass = "coop.stlma.tech.protocolsn.Application"
+    mainClass = "coop.stlma.tech.protocolsn.nodemanager.Application"
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("21")
@@ -83,11 +88,11 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("coop.stlma.tech.protocolsn.*")
+        annotations("coop.stlma.tech.protocolsn.*", "lombok.*")
     }
     aot {
-    // Please review carefully the optimizations enabled below
-    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        // Please review carefully the optimizations enabled below
+        // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
         optimizeServiceLoading = false
         convertYamlToJava = false
         precomputeOperations = true
