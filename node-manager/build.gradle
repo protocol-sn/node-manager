@@ -88,7 +88,7 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("coop.stlma.tech.protocolsn.*", "lombok.*")
+        annotations("coop.stlma.tech.protocolsn.*")
     }
     aot {
         // Please review carefully the optimizations enabled below
