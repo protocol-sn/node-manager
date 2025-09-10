@@ -14,8 +14,15 @@ repositories {
 
 dependencies {
     //grpc
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-services:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+    runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime")
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
-    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    testImplementation "io.grpc:grpc-testing:${grpcVersion}"
+    testImplementation "io.grpc:grpc-inprocess:${grpcVersion}"
 
     //web
     annotationProcessor("io.micronaut:micronaut-http-validation")
@@ -38,8 +45,8 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     //protocol-sn
-    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.0")
-    implementation("coop.stlma.tech.protocolsn:common-lib:0.5.0")
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.1")
+    implementation("coop.stlma.tech.protocolsn:common-lib:0.5.1")
     implementation project(":node-manager-api")
 
     //test

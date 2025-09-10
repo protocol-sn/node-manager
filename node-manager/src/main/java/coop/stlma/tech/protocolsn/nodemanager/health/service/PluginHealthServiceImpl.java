@@ -58,7 +58,7 @@ public class PluginHealthServiceImpl implements PluginHealthService {
         return pluginRegistrationService
             .getRegisteredPlugins()
             .flatMap(pluginRegistration ->
-                getHealthResponse(pluginRegistration.getId()));
+                getHealthResponse(UUID.fromString(pluginRegistration.getId())));
     }
 
     private Mono<HealthResponse> getHealthResponse(String pluginName, String location, int grpcPort, Executor executor) {
