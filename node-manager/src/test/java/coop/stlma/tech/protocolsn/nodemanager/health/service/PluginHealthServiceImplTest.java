@@ -2,7 +2,7 @@ package coop.stlma.tech.protocolsn.nodemanager.health.service;
 
 import coop.stlma.tech.protocolsn.health.model.HealthStatus;
 import coop.stlma.tech.protocolsn.pluginlib.HealthResponse;
-import coop.stlma.tech.protocolsn.nodemanager.registration.model.PluginRegistration;
+import coop.stlma.tech.protocolsn.nodemanager.PluginRegistration;
 import coop.stlma.tech.protocolsn.nodemanager.registration.service.PluginRegistrationService;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Primary;
@@ -47,11 +47,13 @@ class PluginHealthServiceImplTest {
     @Test
     void testGetHealthResponse_happyPath() {
         UUID requestId = UUID.nameUUIDFromBytes("test".getBytes());
-
         Mockito.when(pluginRegistrationService.getPluginById(requestId))
-                        .thenReturn(Mono.just(new PluginRegistration(requestId, "test", embeddedServer.getHost(), 8081,
-                                null, null,
-                                null, null, null)));
+                .thenReturn(Mono.just(PluginRegistration.newBuilder()
+                                .setId(requestId.toString())
+                                .setPluginName("test")
+                                .setPluginLocation(embeddedServer.getHost())
+                                .setPluginGrpcPort(8081)
+                        .build()));
 
         Tuple2<UUID, HealthResponse> healthResponse = pluginHealthService.getHealthResponse(requestId).block();
 
@@ -68,15 +70,24 @@ class PluginHealthServiceImplTest {
         UUID plugin3 = UUID.nameUUIDFromBytes("three".getBytes());
 
         List<PluginRegistration> expectedPlugins = List.of(
-                new PluginRegistration(plugin1, "one",
-                        embeddedServer.getHost(), 8081, null, null,
-                        null, null, null),
-                new PluginRegistration(plugin2, "two",
-                        otherServer.getHost(), 8081, null, null,
-                        null, null, null),
-                new PluginRegistration(plugin3, "three",
-                        "localhost", 8090, null, null,
-                        null, null, null));
+                PluginRegistration.newBuilder()
+                        .setId(plugin1.toString())
+                        .setPluginName("one")
+                        .setPluginLocation(embeddedServer.getHost())
+                        .setPluginGrpcPort(8081)
+                        .build(),
+                PluginRegistration.newBuilder()
+                        .setId(plugin2.toString())
+                        .setPluginName("two")
+                        .setPluginLocation(otherServer.getHost())
+                        .setPluginGrpcPort(8081)
+                        .build(),
+                PluginRegistration.newBuilder()
+                        .setId(plugin3.toString())
+                        .setPluginName("three")
+                        .setPluginLocation("localhost")
+                        .setPluginGrpcPort(8090)
+                        .build());
 
         Mockito.when(pluginRegistrationService.getRegisteredPlugins())
                 .thenReturn(Flux.fromIterable(expectedPlugins));

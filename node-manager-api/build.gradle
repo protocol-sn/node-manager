@@ -1,6 +1,7 @@
 plugins {
     id 'io.micronaut.library' version '4.5.4'
     id 'maven-publish'
+    id 'com.google.protobuf' version '0.9.5'
 }
 
 version getProperty("projectVersion")
@@ -24,7 +25,8 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
 
     //protocol-sn
-    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.0")
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.1")
+    implementation("coop.stlma.tech.protocolsn:common-lib:0.5.1")
 
     //security
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
@@ -34,6 +36,33 @@ dependencies {
     //lombok
     annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
+
+    //grpc
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:grpc-services:${grpcVersion}")
+    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime")
+    implementation("com.google.protobuf:protobuf-java-util:${protobufVersion}")
+
+    //test
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.mockito:mockito-core")
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {
+                option '@generated=omit'
+            }
+        }
+    }
 }
 
 // use JUnit 5 platform

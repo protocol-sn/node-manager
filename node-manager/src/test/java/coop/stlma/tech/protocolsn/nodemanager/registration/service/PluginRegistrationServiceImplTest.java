@@ -1,10 +1,10 @@
 package coop.stlma.tech.protocolsn.nodemanager.registration.service;
 
 import coop.stlma.tech.protocolsn.health.model.HealthStatus;
+import coop.stlma.tech.protocolsn.nodemanager.PluginRegistration;
 import coop.stlma.tech.protocolsn.pluginlib.HealthResponse;
 import coop.stlma.tech.protocolsn.nodemanager.registration.data.PluginRegistrationRepository;
 import coop.stlma.tech.protocolsn.nodemanager.registration.data.entity.PluginRegistrationEntity;
-import coop.stlma.tech.protocolsn.nodemanager.registration.model.PluginRegistration;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -38,9 +38,11 @@ class PluginRegistrationServiceImplTest {
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
                         "blog-plugin", "localhost", 8082, null, null,
                         null, null, null)));
-        PluginRegistration result = pluginRegistrationService.registerPlugin(new PluginRegistration(null, "blog-plugin",
-                "localhost", 8082, null, null, null,
-                null, null)).block();
+        PluginRegistration result = pluginRegistrationService.registerPlugin(PluginRegistration.newBuilder()
+                .setPluginName("blog-plugin")
+                .setPluginLocation("localhost")
+                .setPluginGrpcPort(8082)
+                .build()).block();
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals("blog-plugin", result.getPluginName());
@@ -58,9 +60,12 @@ class PluginRegistrationServiceImplTest {
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
                         "blog-plugin", "localhost", 8083, null, null,
                         null, null, null)));
-        PluginRegistration result = pluginRegistrationService.registerPlugin(new PluginRegistration(null, "blog-plugin",
-                "localhost", 8083, null, null, null,
-                null, null)).block();
+
+        PluginRegistration result = pluginRegistrationService.registerPlugin(PluginRegistration.newBuilder()
+                .setPluginName("blog-plugin")
+                .setPluginLocation("localhost")
+                .setPluginGrpcPort(8083)
+                .build()).block();
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals("blog-plugin", result.getPluginName());

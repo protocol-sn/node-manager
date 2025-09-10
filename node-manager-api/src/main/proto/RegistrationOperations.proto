@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "coop.stlma.tech.protocolsn.nodemanager";
+option java_outer_classname = "RegistrationOperations";
+option objc_class_prefix = "HLW";
+
+package coop.stlma.tech.protocolsn.nodemanager;
+
+import "google/protobuf/timestamp.proto";
+
+service Registration {
+  rpc RegisterPlugin(PluginRegistration) returns (PluginRegistration) {}
+}
+
+message PluginRegistration {
+  string id = 1;
+  string pluginName = 2;
+  string pluginLocation = 3;
+  int32 pluginGrpcPort = 4;
+  optional string currentHealthStatus = 5;
+  optional string currentHealthDescription = 6;
+  optional google.protobuf.Timestamp lastHealthCheck = 7;
+  optional string lastHealthCheckStatus = 8;
+  optional google.protobuf.Timestamp lastTimeHealthy = 9;
+}
