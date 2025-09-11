@@ -1,0 +1,15 @@
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://db:5432/nodemanager
+    username: ${JDBC_USER:postgres}
+    password: ${JDBC_PASSWORD:postgres}
+    dialect: POSTGRES
+
+micronaut:
+  server:
+    port: 8080
+
+grpc:
+  server:
+    port: 50051
