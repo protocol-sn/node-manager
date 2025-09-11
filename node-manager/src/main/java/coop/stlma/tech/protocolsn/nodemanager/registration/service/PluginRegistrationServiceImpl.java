@@ -1,18 +1,16 @@
 package coop.stlma.tech.protocolsn.nodemanager.registration.service;
 
-import coop.stlma.tech.protocolsn.health.model.HealthStatus;
+import coop.stlma.tech.protocolsn.commonlib.util.ProtoUtil;
 import coop.stlma.tech.protocolsn.pluginlib.HealthResponse;
 import coop.stlma.tech.protocolsn.nodemanager.registration.data.PluginRegistrationRepository;
 import coop.stlma.tech.protocolsn.nodemanager.registration.data.entity.PluginRegistrationEntity;
-import coop.stlma.tech.protocolsn.nodemanager.registration.model.PluginRegistration;
-import io.micronaut.core.util.StringUtils;
+import coop.stlma.tech.protocolsn.nodemanager.PluginRegistration;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -76,7 +74,6 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
                     pluginRegistrationEntity.setCurrentHealthDescription(newStatus.getDescription());
                     pluginRegistrationEntity.setLastHealthCheck(Instant.now());
                     pluginRegistrationEntity.setLastHealthCheckStatus(lastHealthCheckStatus);
-//                    return pluginRegistrationRepository.update(pluginRegistrationEntity);
                     return pluginRegistrationEntity;
                 })
                 .flatMap(pluginRegistrationRepository::update)
@@ -90,18 +87,25 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
     }
 
     private PluginRegistration mapToDomain(PluginRegistrationEntity pluginRegistrationEntity) {
-        return new PluginRegistration(
-                pluginRegistrationEntity.getId(),
-                pluginRegistrationEntity.getPluginName(),
-                pluginRegistrationEntity.getPluginLocation(),
-                pluginRegistrationEntity.getPluginGrpcPort(),
-                StringUtils.isNotEmpty(pluginRegistrationEntity.getCurrentHealthStatus()) ?
-                        HealthStatus.valueOf(pluginRegistrationEntity.getCurrentHealthStatus()) : null,
-                pluginRegistrationEntity.getCurrentHealthDescription(),
-                pluginRegistrationEntity.getLastHealthCheck(),
-                StringUtils.isNotEmpty(pluginRegistrationEntity.getLastHealthCheckStatus()) ?
-                        HealthStatus.valueOf(pluginRegistrationEntity.getLastHealthCheckStatus()) : null,
-                pluginRegistrationEntity.getLastTimeHealthy());
+        PluginRegistration.Builder builder = PluginRegistration.newBuilder()
+                .setId(pluginRegistrationEntity.getId().toString())
+                .setPluginName(pluginRegistrationEntity.getPluginName())
+                .setPluginLocation(pluginRegistrationEntity.getPluginLocation())
+                .setPluginGrpcPort(pluginRegistrationEntity.getPluginGrpcPort());
+
+        if (pluginRegistrationEntity.getCurrentHealthStatus() != null) {
+            builder.setCurrentHealthStatus(pluginRegistrationEntity.getCurrentHealthStatus());
+        }
+        if (pluginRegistrationEntity.getCurrentHealthDescription() != null) {
+            builder.setCurrentHealthDescription(pluginRegistrationEntity.getCurrentHealthDescription());
+        }
+        if (pluginRegistrationEntity.getLastHealthCheck() != null) {
+            builder.setLastHealthCheck(ProtoUtil.fromInstant(pluginRegistrationEntity.getLastHealthCheck()));
+        }
+        if (pluginRegistrationEntity.getLastTimeHealthy() != null) {
+            builder.setLastTimeHealthy(ProtoUtil.fromInstant(pluginRegistrationEntity.getLastTimeHealthy()));
+        }
+        return builder.build();
     }
 
     private PluginRegistrationEntity mapToEntity(PluginRegistration pluginRegistration) {
@@ -111,10 +115,10 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
                 pluginRegistration.getPluginName(),
                 pluginRegistration.getPluginLocation(),
                 pluginRegistration.getPluginGrpcPort(),
-                Optional.ofNullable(pluginRegistration.getCurrentHealthStatus()).map(HealthStatus::name).orElse(null),
+                pluginRegistration.getCurrentHealthStatus(),
                 pluginRegistration.getCurrentHealthDescription(),
-                pluginRegistration.getLastHealthCheck(),
-                Optional.ofNullable(pluginRegistration.getLastHealthCheckStatus()).map(HealthStatus::name).orElse(null),
-                pluginRegistration.getLastTimeHealthy());
+                ProtoUtil.fromTimestamp(pluginRegistration.getLastHealthCheck()),
+                pluginRegistration.getLastHealthCheckStatus(),
+                ProtoUtil.fromTimestamp(pluginRegistration.getLastTimeHealthy()));
     }
 }
