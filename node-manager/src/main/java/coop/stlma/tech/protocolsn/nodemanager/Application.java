@@ -10,9 +10,6 @@ import io.micronaut.runtime.Micronaut;
 public class Application {
 
     public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println(arg);
-        }
         Micronaut.run(Application.class, args);
     }
 }
