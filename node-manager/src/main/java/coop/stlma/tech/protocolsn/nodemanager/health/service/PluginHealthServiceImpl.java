@@ -62,9 +62,17 @@ public class PluginHealthServiceImpl implements PluginHealthService {
     }
 
     private Mono<HealthResponse> getHealthResponse(String pluginName, String location, int grpcPort, Executor executor) {
-        log.trace("Sending request to {}", location);
-        log.debug("Running health check for plugin: {}", pluginName);
         HealthClient myClient = HealthClient.create(location, grpcPort, executor);
+        return getHealthResponseInternal(pluginName, myClient);
+    }
+
+    private Mono<HealthResponse> getHealthResponse(String pluginName, String target, Executor executor) {
+        HealthClient myClient = HealthClient.create(target, executor);
+        return getHealthResponseInternal(pluginName, myClient);
+    }
+
+    private static Mono<HealthResponse> getHealthResponseInternal(String pluginName, HealthClient myClient) {
+        log.debug("Running health check for plugin: {}", pluginName);
         return Mono.from(myClient.healthCheck())
                 .doOnError(throwable -> {
                     log.error("Plugin {} health check failed with error {}", pluginName, throwable.getMessage());

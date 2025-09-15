@@ -115,6 +115,7 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
                 pluginRegistration.getPluginName(),
                 pluginRegistration.getPluginLocation(),
                 pluginRegistration.getPluginGrpcPort(),
+                pluginRegistration.getPluginTarget(),
                 pluginRegistration.getCurrentHealthStatus(),
                 pluginRegistration.getCurrentHealthDescription(),
                 ProtoUtil.fromTimestamp(pluginRegistration.getLastHealthCheck()),

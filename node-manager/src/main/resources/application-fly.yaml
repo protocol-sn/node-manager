@@ -1,0 +1,11 @@
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: ${JDBC_URL:jdbc:postgresql://ecosystem-psql.flycast:5432/keycloak?sslmode=disable}
+    username: ${JDBC_USER}
+    password: ${JDBC_PASSWORD}
+    dialect: POSTGRES
+
+grpc:
+  server:
+    port: 50051

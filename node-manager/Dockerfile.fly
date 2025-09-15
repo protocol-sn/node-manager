@@ -1,0 +1,10 @@
+FROM eclipse-temurin:21-jre
+WORKDIR /home/app
+
+ENV JDBC_URL=jdbc:postgresql://ecosystem-psql.flycast:5432/nodemanager?sslmode=disable
+ENV KEYCLOAK_HOST=http://psn-keycloak.flycast:80/auth
+
+COPY --link build/libs/node-manager*-all.jar /home/app/application.jar
+EXPOSE 8080
+EXPOSE 50051
+ENTRYPOINT ["java", "-Dmicronaut.environments=fly", "-jar", "/home/app/application.jar"]
