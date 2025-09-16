@@ -42,10 +42,15 @@ public class PluginHealthServiceImpl implements PluginHealthService {
     @Override
     public Mono<Tuple2<UUID, HealthResponse>> getHealthResponse(UUID pluginId) {
         return pluginRegistrationService.getPluginById(pluginId)
-                .flatMap(pluginRegistration -> getHealthResponse(pluginRegistration.getPluginName(),
-                        pluginRegistration.getPluginLocation(),
-                        pluginRegistration.getPluginGrpcPort(),
-                        executor))
+                .flatMap(pluginRegistration -> {
+                    if (pluginRegistration.hasPluginTarget()) {
+                        return getHealthResponse(pluginRegistration.getPluginTarget(), executor);
+                    }
+                    return getHealthResponse(pluginRegistration.getPluginName(),
+                            pluginRegistration.getPluginLocation(),
+                            pluginRegistration.getPluginGrpcPort(),
+                            executor);
+                })
                 .map(healthResponse -> Tuples.of(pluginId, healthResponse));
     }
 
@@ -62,14 +67,19 @@ public class PluginHealthServiceImpl implements PluginHealthService {
     }
 
     private Mono<HealthResponse> getHealthResponse(String pluginName, String location, int grpcPort, Executor executor) {
-        log.trace("Sending request to {}", location);
-        log.debug("Running health check for plugin: {}", pluginName);
         HealthClient myClient = HealthClient.create(location, grpcPort, executor);
+        return getHealthResponseInternal(pluginName, myClient);
+    }
+
+    private Mono<HealthResponse> getHealthResponse(String pluginTarget, Executor executor) {
+        HealthClient myClient = HealthClient.create(pluginTarget, executor);
+        return getHealthResponseInternal(pluginTarget, myClient);
+    }
+
+    private static Mono<HealthResponse> getHealthResponseInternal(String pluginName, HealthClient myClient) {
+        log.debug("Running health check for plugin: {}", pluginName);
         return Mono.from(myClient.healthCheck())
-                .doOnError(throwable -> {
-                    log.error("Plugin {} health check failed with error {}", pluginName, throwable.getMessage());
-                    throwable.printStackTrace();
-                })
+                .doOnError(throwable -> log.error("Plugin {} health check failed with error {}", pluginName, throwable.getMessage()))
                 .onErrorReturn(HealthResponse.newBuilder()
                         .setHealthStatus(HealthStatus.DOWN.name())
                         .setDescription("Plugin " + pluginName + " health check failed with error")
