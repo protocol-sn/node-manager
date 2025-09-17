@@ -50,7 +50,13 @@ public class PluginRegistrationEntity {
      * GRPC port of the plugin
      */
     @Column(name = "plugin_grpc_port")
-    private int pluginGrpcPort;
+    private Integer pluginGrpcPort;
+
+    /**
+     * GRPC target location, e.g. "localhost:50051"
+     */
+    @Column(name = "plugin_target")
+    private String pluginTarget;
 
     /**
      * Result of the most recent health check

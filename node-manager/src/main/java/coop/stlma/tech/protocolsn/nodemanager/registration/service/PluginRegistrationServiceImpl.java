@@ -89,9 +89,7 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
     private PluginRegistration mapToDomain(PluginRegistrationEntity pluginRegistrationEntity) {
         PluginRegistration.Builder builder = PluginRegistration.newBuilder()
                 .setId(pluginRegistrationEntity.getId().toString())
-                .setPluginName(pluginRegistrationEntity.getPluginName())
-                .setPluginLocation(pluginRegistrationEntity.getPluginLocation())
-                .setPluginGrpcPort(pluginRegistrationEntity.getPluginGrpcPort());
+                .setPluginName(pluginRegistrationEntity.getPluginName());
 
         if (pluginRegistrationEntity.getCurrentHealthStatus() != null) {
             builder.setCurrentHealthStatus(pluginRegistrationEntity.getCurrentHealthStatus());
@@ -105,6 +103,14 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
         if (pluginRegistrationEntity.getLastTimeHealthy() != null) {
             builder.setLastTimeHealthy(ProtoUtil.fromInstant(pluginRegistrationEntity.getLastTimeHealthy()));
         }
+        if (pluginRegistrationEntity.getPluginTarget() != null) {
+            builder.setPluginTarget(pluginRegistrationEntity.getPluginTarget());
+        }
+        else {
+            builder.setPluginLocation(pluginRegistrationEntity.getPluginLocation());
+            builder.setPluginGrpcPort(pluginRegistrationEntity.getPluginGrpcPort());
+
+        }
         return builder.build();
     }
 
@@ -115,6 +121,7 @@ public class PluginRegistrationServiceImpl implements PluginRegistrationService 
                 pluginRegistration.getPluginName(),
                 pluginRegistration.getPluginLocation(),
                 pluginRegistration.getPluginGrpcPort(),
+                pluginRegistration.getPluginTarget(),
                 pluginRegistration.getCurrentHealthStatus(),
                 pluginRegistration.getCurrentHealthDescription(),
                 ProtoUtil.fromTimestamp(pluginRegistration.getLastHealthCheck()),

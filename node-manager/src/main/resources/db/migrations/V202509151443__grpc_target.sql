@@ -1,0 +1,1 @@
+ALTER TABLE registered_plugins ADD COLUMN plugin_target VARCHAR(255);

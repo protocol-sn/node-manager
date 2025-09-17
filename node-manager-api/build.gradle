@@ -25,7 +25,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
 
     //protocol-sn
-    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.1")
+    implementation("coop.stlma.tech.protocolsn:plugin-lib-api:0.5.2")
     implementation("coop.stlma.tech.protocolsn:common-lib:0.5.1")
 
     //security
