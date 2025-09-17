@@ -70,7 +70,7 @@ public class PluginHealthServiceImpl implements PluginHealthService {
         HealthClient myClient = HealthClient.create(location, grpcPort, executor);
         return getHealthResponseInternal(pluginName, myClient);
     }
-    
+
     private Mono<HealthResponse> getHealthResponse(String pluginTarget, Executor executor) {
         HealthClient myClient = HealthClient.create(pluginTarget, executor);
         return getHealthResponseInternal(pluginTarget, myClient);

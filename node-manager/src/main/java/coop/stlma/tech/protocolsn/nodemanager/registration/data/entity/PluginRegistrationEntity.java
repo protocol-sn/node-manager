@@ -59,12 +59,6 @@ public class PluginRegistrationEntity {
     private String pluginTarget;
 
     /**
-     * Target, rather than separate host and port
-     */
-    @Column(name = "plugin_target")
-    private String pluginTarget;
-
-    /**
      * Result of the most recent health check
      */
     @Column(name = "current_health_status")
