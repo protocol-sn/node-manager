@@ -36,7 +36,7 @@ class PluginRegistrationServiceImplTest {
                         .thenReturn(Mono.empty());
         Mockito.when(pluginRegistrationRepository.update(Mockito.any(PluginRegistrationEntity.class)))
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
-                        "blog-plugin", "localhost", 8082, null, null,
+                        "blog-plugin", "localhost", 8082, null, null, null,
                         null, null, null)));
         PluginRegistration result = pluginRegistrationService.registerPlugin(PluginRegistration.newBuilder()
                 .setPluginName("blog-plugin")
@@ -54,11 +54,11 @@ class PluginRegistrationServiceImplTest {
     void testRegisterPlugin_reRegistration() {
         Mockito.when(pluginRegistrationRepository.findByPluginName("blog-plugin"))
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
-                        "blog-plugin", "localhost", 8082, null, null,
+                        "blog-plugin", "localhost", 8082, null, null, null,
                         null, null, null)));
         Mockito.when(pluginRegistrationRepository.update(pluginRegistrationEntityArgumentCaptor.capture()))
                 .thenReturn(Mono.just(new PluginRegistrationEntity(UUID.nameUUIDFromBytes("blog-plugin".getBytes()),
-                        "blog-plugin", "localhost", 8083, null, null,
+                        "blog-plugin", "localhost", 8083, null, null, null,
                         null, null, null)));
 
         PluginRegistration result = pluginRegistrationService.registerPlugin(PluginRegistration.newBuilder()
@@ -78,7 +78,7 @@ class PluginRegistrationServiceImplTest {
     @Test
     void testUpdateHealthStatus_happyPath() {
         PluginRegistrationEntity expectedEntity = new PluginRegistrationEntity(PLUGIN_ID,
-                "blog-plugin", "localhost", 8082, null, null,
+                "blog-plugin", "localhost", 8082, null, null, null,
                 null, null, null);
         Mockito.when(pluginRegistrationRepository.findById(PLUGIN_ID))
                 .thenReturn(Mono.just(expectedEntity));

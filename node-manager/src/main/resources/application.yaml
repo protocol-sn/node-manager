@@ -72,12 +72,6 @@ flyway:
       enabled: true
       locations: db/migrations
 
-logger:
-  levels:
-    coop.stlma.tech.protocolsn: DEBUG
-    io.micronaut.data: TRACE
-    io.micronaut.http: DEBUG
-
 grpc:
   server:
     port: 8090

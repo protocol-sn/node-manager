@@ -15,8 +15,9 @@ service Registration {
 
 message PluginRegistration {
   string id = 1;
-  string pluginName = 2;
-  string pluginLocation = 3;
+  optional string pluginName = 2;
+  optional string pluginLocation = 3;
+  optional string pluginTarget = 10;
   int32 pluginGrpcPort = 4;
   optional string currentHealthStatus = 5;
   optional string currentHealthDescription = 6;
