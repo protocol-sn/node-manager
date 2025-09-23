@@ -9,7 +9,6 @@ import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
-
 import java.util.concurrent.Executor;
 
 /**
@@ -36,7 +35,7 @@ public class RegistrationClient {
      * Close the channel
      */
     public void closeChannel() {
-        channel.shutdownNow();
+        channel.shutdown();
     }
 
     /**
