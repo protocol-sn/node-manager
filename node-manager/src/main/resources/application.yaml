@@ -74,4 +74,4 @@ flyway:
 
 grpc:
   server:
-    port: 50051
+    port: 8090

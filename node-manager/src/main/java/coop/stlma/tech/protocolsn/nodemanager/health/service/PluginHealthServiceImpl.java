@@ -30,7 +30,6 @@ public class PluginHealthServiceImpl implements PluginHealthService {
 
     public PluginHealthServiceImpl(PluginRegistrationService pluginRegistrationService,
                                    @Named(TaskExecutors.IO) Executor executor) {
-
         this.pluginRegistrationService = pluginRegistrationService;
         this.executor = executor;
     }
