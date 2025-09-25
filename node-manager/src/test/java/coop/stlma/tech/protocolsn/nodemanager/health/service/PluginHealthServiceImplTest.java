@@ -1,6 +1,7 @@
 package coop.stlma.tech.protocolsn.nodemanager.health.service;
 
 import coop.stlma.tech.protocolsn.health.model.HealthStatus;
+import coop.stlma.tech.protocolsn.nodemanager.HealthServerMock;
 import coop.stlma.tech.protocolsn.pluginlib.HealthResponse;
 import coop.stlma.tech.protocolsn.nodemanager.PluginRegistration;
 import coop.stlma.tech.protocolsn.nodemanager.registration.service.PluginRegistrationService;
@@ -43,6 +44,28 @@ class PluginHealthServiceImplTest {
             "activeTest", "HealthServerMock",
             "grpc.server.port", "8081",
             "micronaut.server.port", "8082"));
+
+    @Test
+    void testGetHealthResponse_errorReturned() {
+        HealthServerMock.returnError = new RuntimeException("It broke!");
+        UUID requestId = UUID.nameUUIDFromBytes("test".getBytes());
+        Mockito.when(pluginRegistrationService.getPluginById(requestId))
+                .thenReturn(Mono.just(PluginRegistration.newBuilder()
+                        .setId(requestId.toString())
+                        .setPluginName("test")
+                        .setPluginLocation(embeddedServer.getHost())
+                        .setPluginGrpcPort(8081)
+                        .build()));
+
+        Tuple2<UUID, HealthResponse> healthResponse = pluginHealthService.getHealthResponse(requestId).block();
+
+        Assertions.assertNotNull(healthResponse);
+        Assertions.assertEquals(requestId, healthResponse.getT1());
+        Assertions.assertEquals(HealthStatus.DOWN.name(), healthResponse.getT2().getHealthStatus());
+        Assertions.assertEquals("Plugin test health check failed with error: (UNKNOWN): It broke!", healthResponse.getT2().getDescription());
+
+        HealthServerMock.returnError = null;
+    }
 
     @Test
     void testGetHealthResponse_happyPath() {
@@ -114,7 +137,7 @@ class PluginHealthServiceImplTest {
 
         Assertions.assertEquals(plugin3, responses.get(2).getT1());
         Assertions.assertEquals(HealthStatus.DOWN.name(), responses.get(2).getT2().getHealthStatus());
-        Assertions.assertEquals("Plugin three health check failed with error", responses.get(2).getT2().getDescription());
+        Assertions.assertTrue(responses.get(2).getT2().getDescription().contains("Plugin three health check failed with error"));
     }
 
     @BeforeEach
