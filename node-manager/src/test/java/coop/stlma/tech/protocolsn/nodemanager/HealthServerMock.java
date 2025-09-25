@@ -14,14 +14,19 @@ public class HealthServerMock extends HealthGrpc.HealthImplBase {
 
     public static HealthStatus healthStatus = HealthStatus.HEALTHY;
     public static String description = "I am healthy";
+    public static RuntimeException returnError;
 
     @Override
     public void healthCheck(Empty empty, StreamObserver<HealthResponse> responseObserver) {
-        responseObserver.onNext(HealthResponse.newBuilder()
-                .setHealthStatus(healthStatus.name())
-                .setDescription(description)
-                .build());
-
-        responseObserver.onCompleted();
+        if (returnError == null) {
+            responseObserver.onNext(HealthResponse.newBuilder()
+                    .setHealthStatus(healthStatus.name())
+                    .setDescription(description)
+                    .build());
+            responseObserver.onCompleted();
+        }
+        else {
+            throw returnError;
+        }
     }
 }

@@ -4,6 +4,8 @@ import coop.stlma.tech.protocolsn.health.api.HealthClient;
 import coop.stlma.tech.protocolsn.health.model.HealthStatus;
 import coop.stlma.tech.protocolsn.pluginlib.HealthResponse;
 import coop.stlma.tech.protocolsn.nodemanager.registration.service.PluginRegistrationService;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
@@ -80,10 +82,19 @@ public class PluginHealthServiceImpl implements PluginHealthService {
         log.debug("Running health check for plugin: {}", pluginName);
         return Mono.from(myClient.healthCheck())
                 .doOnError(throwable -> log.error("Plugin {} health check failed with error {}", pluginName, throwable.getMessage()))
-                .onErrorReturn(HealthResponse.newBuilder()
-                        .setHealthStatus(HealthStatus.DOWN.name())
-                        .setDescription("Plugin " + pluginName + " health check failed with error")
-                        .build())
+                .onErrorResume(throwable -> {
+                    StatusRuntimeException useError;
+                    if (throwable instanceof StatusRuntimeException statusRuntimeException) {
+                        useError = statusRuntimeException;
+                    }
+                    else {
+                        useError =  new StatusRuntimeException(Status.fromThrowable(throwable));
+                    }
+                    return Mono.just(HealthResponse.newBuilder()
+                            .setHealthStatus(HealthStatus.DOWN.name())
+                            .setDescription("Plugin " + pluginName + " health check failed with error: (" + useError.getStatus().getCode() + "): " + useError.getStatus().getDescription())
+                            .build());
+                })
                 .doFinally(signalType -> myClient.closeChannel());
     }
 }
