@@ -9,3 +9,8 @@ datasources:
 grpc:
   server:
     port: 50051
+
+flyway:
+  datasources:
+    default:
+      baseline-on-migrate: true
